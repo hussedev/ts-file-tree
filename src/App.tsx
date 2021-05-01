@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
+import ApiClient from './Services/ApiClient';
+import ITree from './ITree';
 import './App.css';
 
-function App() {
+export const TreeContext = React.createContext({});
+
+const emptyTree: ITree = {
+  path: '',
+  name: '',
+  size: 0,
+  type: 'none',
+};
+
+const App: React.FC = () => {
+  const [tree, setTree] = useState<ITree>(emptyTree);
+
+  useEffect(() => {
+    ApiClient.getTree().then((fileTree) => {
+      console.log('fileTree', fileTree);
+      setTree(fileTree);
+      console.log('tree', tree);
+    });
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <TreeContext.Provider value={{ tree }}>{tree.path}</TreeContext.Provider>
     </div>
   );
-}
+};
 
 export default App;
