@@ -1,0 +1,47 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: auto;
+  height: 35px;
+}
+.title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: auto;
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+}
+
+.path {
+  margin-left: 10px;
+}
+
+.title:hover {
+  cursor: pointer;
+  background-color: #ddd;
+  color: #333;
+}
+
+.viewer {
+  width: 90%;
+  margin: 20px;
+}
+
+.child {
+  margin-left: 10px;
+}
+
+.size {
+  flex-grow: 1;
+  text-align: right;
+}
