@@ -1,8 +1,8 @@
 import ITree from 'types/ITree';
 
-export const BASE_URL = `${process.env.REACT_APP_API_HOST || 'localhost'}:${
-  process.env.REACT_APP_API_PORT || 3002
-}`;
+export const BASE_URL = `${
+  process.env.REACT_APP_API_HOST || 'http://localhost'
+}:${process.env.REACT_APP_API_PORT || 3002}`;
 
 export const getTree = (path: string = ''): Promise<ITree> =>
   path === ''
