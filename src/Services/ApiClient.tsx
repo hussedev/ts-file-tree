@@ -1,24 +1,40 @@
-import ITree from '../ITree';
+import ITree from 'types/ITree';
 
-const BASE_URL = `${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}`;
+export const BASE_URL = `${process.env.REACT_APP_API_HOST || 'localhost'}:${
+  process.env.REACT_APP_API_PORT || 3002
+}`;
 
-const ApiClient = {
-  getTree: (path: string = ''): Promise<ITree> => {
-    return fetchRequest(`tree/${path}`);
-  },
+export const getTree = (path: string = ''): Promise<ITree> =>
+  path === ''
+    ? fetchRequest('tree', 'GET')
+    : fetchRequest('tree', 'POST', { path });
 
-  getFile: (path: string) => {
-    return fetchRequest(`file/${path}`);
-  },
+const fetchRequest = (url: string, method: string, body?: { path: string }) => {
+  if (body) {
+    return fetch(`${BASE_URL}/${url}`, {
+      method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    })
+      .then((res) => (res.status <= 400 ? res : Promise.reject(res)))
+      .then((res) => res.json())
+      .catch((err) => {
+        console.log(`${err.message} while fetching /${url}`);
+      });
+  } else {
+    return fetch(`${BASE_URL}/${url}`, {
+      method,
+    })
+      .then((res) => (res.status <= 400 ? res : Promise.reject(res)))
+      .then((res) => res.json())
+      .catch((err) => {
+        console.log(`${err.message} while fetching /${url}`);
+      });
+  }
 };
 
-const fetchRequest = (url: string) => {
-  return fetch(`${BASE_URL}/${url}`)
-    .then((res) => (res.status <= 400 ? res : Promise.reject(res)))
-    .then((res) => res.json())
-    .catch((err) => {
-      console.log(`${err.message} while fetching /${url}`);
-    });
+const ApiClient = {
+  getTree,
 };
 
 export default ApiClient;
