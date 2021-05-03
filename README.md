@@ -2,6 +2,7 @@
 A simple file browser in react
 
 Usage:
+- clone repo: ```git clone ```
 - install dependencies: ```npm install```
 - run the server: ```npm start```
 
